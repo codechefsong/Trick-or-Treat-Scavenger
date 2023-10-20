@@ -30,3 +30,87 @@ p {
 .btn.btn-ghost {
   @apply shadow-none;
 }
+
+.grid-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-2 {
+  position: absolute;
+  top: 0;
+  left: 90px;
+}
+
+.grid-3 {
+  position: absolute;
+  top: 0;
+  left: 180px;
+}
+
+.grid-4 {
+  position: absolute;
+  top: 0;
+  left: 270px;
+}
+
+.grid-5 {
+  position: absolute;
+  top: 0;
+  left: 360px;
+}
+
+.grid-6 {
+  position: absolute;
+  top: 0;
+  left: 450px;
+}
+
+.grid-7 {
+  position: absolute;
+  top: 0;
+  left: 540px;
+}
+
+.grid-8 {
+  position: absolute;
+  top: 0;
+  left: 630px;
+}
+
+.grid-9 {
+  position: absolute;
+  top: 0;
+  left: 720px;
+}
+
+.grid-10 {
+  position: absolute;
+  top: 0;
+  left: 810px;
+}
+
+.grid-11 {
+  position: absolute;
+  top: 0;
+  left: 900px;
+}
+
+.grid-12 {
+  position: absolute;
+  top: 0;
+  left: 990px;
+}
+
+.grid-13 {
+  position: absolute;
+  top: 0;
+  left: 1080px;
+}
+
+.grid-14 {
+  position: absolute;
+  top: 0;
+  left: 1170px;
+}
