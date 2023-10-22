@@ -10,12 +10,15 @@ contract ToTScavenger {
   address public immutable owner;
   Box[] public grid;
   mapping(address => address) public tbaList;
+  mapping(address => uint256) public bucketPosititon;
 
   struct Box {
     uint256 id;
     string typeGrid;
     uint256 numberOfPlayers;
   }
+
+  event RollResult(address player, uint256 num);
 
   constructor(address _owner, address _registryAddress) {
     owner = _owner;
@@ -40,6 +43,17 @@ contract ToTScavenger {
   ) external {
     address newTBA = registry.createAccount(_implementation, _chainId, _tokenContract, _tokenId, _salt, _initData);
     tbaList[msg.sender] = newTBA;
+  }
+
+  function moveBucket() public {
+    uint256 randomNumber = uint256(keccak256(abi.encode(block.timestamp, msg.sender))) % 3;
+    bucketPosititon[msg.sender] += randomNumber + 1;
+
+    if (bucketPosititon[msg.sender] >= 14) {
+      bucketPosititon[msg.sender] = 0;
+    }
+
+    emit RollResult(msg.sender, randomNumber);
   }
 
   // Modifier: used to define a set of rules that must be met before or after a function is executed

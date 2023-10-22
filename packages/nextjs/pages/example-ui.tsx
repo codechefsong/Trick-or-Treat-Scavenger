@@ -1,4 +1,4 @@
-import { BOARD_STYLES } from "../components/board/Names";
+import { BOARD_STYLES } from "../components/board/names";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
@@ -13,6 +13,12 @@ const ExampleUI: NextPage = () => {
   const { data: tbaAddress } = useScaffoldContractRead({
     contractName: "ToTScavenger",
     functionName: "tbaList",
+    args: [address],
+  });
+
+  const { data: you } = useScaffoldContractRead({
+    contractName: "ToTScavenger",
+    functionName: "bucketPosititon",
     args: [address],
   });
 
@@ -35,6 +41,14 @@ const ExampleUI: NextPage = () => {
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
       console.log(txnReceipt);
+    },
+  });
+
+  const { writeAsync: roll } = useScaffoldContractWrite({
+    contractName: "ToTScavenger",
+    functionName: "moveBucket",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
   });
 
@@ -62,7 +76,7 @@ const ExampleUI: NextPage = () => {
             </button>
             <button
               className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-              onClick={() => console.log("roll")}
+              onClick={() => roll()}
             >
               Roll
             </button>
@@ -76,6 +90,7 @@ const ExampleUI: NextPage = () => {
                     }
                   >
                     {item.id.toString()}
+                    {you?.toString() === item.id.toString() && <p className="my-0">You</p>}
                   </div>
                 ))}
             </div>
