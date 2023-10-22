@@ -46,6 +46,15 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
+  const registryContract = await hre.ethers.getContract("ERC6551Registry", deployer);
+
+  await deploy("ToTScavenger", {
+    from: deployer,
+    args: [deployer, registryContract.address],
+    log: true,
+    autoMine: true,
+  });
+
   await deploy("BucketNFT", {
     from: deployer,
     log: true,
