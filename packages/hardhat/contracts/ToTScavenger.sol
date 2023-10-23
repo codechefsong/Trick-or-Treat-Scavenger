@@ -2,10 +2,12 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import "./ERC6551Registry.sol";
+import "./CandyToken.sol";
 
 contract ToTScavenger {
   // State Variables
   ERC6551Registry public registry;
+  CandyToken public candy;
 
   address public immutable owner;
   Box[] public grid;
@@ -20,9 +22,10 @@ contract ToTScavenger {
 
   event RollResult(address player, uint256 num);
 
-  constructor(address _owner, address _registryAddress) {
+  constructor(address _owner, address _registryAddress, address _candyAddress) {
     owner = _owner;
     registry = ERC6551Registry(_registryAddress);
+    candy = CandyToken(_candyAddress);
 
     for (uint256 id = 0; id < 14; id++) {
       grid.push(Box(id, "empty", 0));

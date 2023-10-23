@@ -46,11 +46,18 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
+  await deploy("CandyToken", {
+    from: deployer,
+    log: true,
+    autoMine: true,
+  });
+
   const registryContract = await hre.ethers.getContract("ERC6551Registry", deployer);
+  const candyContract = await hre.ethers.getContract("CandyToken", deployer);
 
   await deploy("ToTScavenger", {
     from: deployer,
-    args: [deployer, registryContract.address],
+    args: [deployer, registryContract.address, candyContract.address],
     log: true,
     autoMine: true,
   });
@@ -60,7 +67,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     log: true,
     autoMine: true,
   });
-
 };
 
 export default deployYourContract;
