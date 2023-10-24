@@ -16,7 +16,7 @@ const ExampleUI: NextPage = () => {
   const { data: you } = useScaffoldContractRead({
     contractName: "ToTScavenger",
     functionName: "bucketPosititon",
-    args: [address],
+    args: [tbaAddress],
   });
 
   const { data: gridData } = useScaffoldContractRead({
@@ -24,9 +24,23 @@ const ExampleUI: NextPage = () => {
     functionName: "getGrid",
   });
 
+  const { data: isClaim } = useScaffoldContractRead({
+    contractName: "ToTScavenger",
+    functionName: "isClaim",
+    args: [tbaAddress],
+  });
+
   const { writeAsync: roll } = useScaffoldContractWrite({
     contractName: "ToTScavenger",
     functionName: "moveBucket",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const { writeAsync: claimCandy, isLoading: claimLoading } = useScaffoldContractWrite({
+    contractName: "ToTScavenger",
+    functionName: "claimCandy",
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
@@ -54,6 +68,15 @@ const ExampleUI: NextPage = () => {
             >
               Roll
             </button>
+            {isClaim && (
+              <button
+                className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+                onClick={() => claimCandy()}
+                disabled={claimLoading}
+              >
+                {claimLoading ? "Claim" : "Claimming..."}
+              </button>
+            )}
             <div className="relative mt-10" style={{ width: "450px", height: "600px" }}>
               {gridData &&
                 gridData.map((item, index) => (
@@ -64,6 +87,7 @@ const ExampleUI: NextPage = () => {
                     }
                   >
                     {item.id.toString()}
+                    {item.typeGrid === "house" && <p className="building">House</p>}
                     {you?.toString() === item.id.toString() && <p className="my-0">You</p>}
                   </div>
                 ))}

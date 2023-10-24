@@ -13,6 +13,7 @@ contract ToTScavenger {
   Box[] public grid;
   mapping(address => address) public tbaList;
   mapping(address => uint256) public bucketPosititon;
+  mapping(address => bool) public isClaim;
 
   struct Box {
     uint256 id;
@@ -28,7 +29,8 @@ contract ToTScavenger {
     candy = CandyToken(_candyAddress);
 
     for (uint256 id = 0; id < 14; id++) {
-      grid.push(Box(id, "empty", 0));
+      if (id == 5 || id == 6|| id == 7) grid.push(Box(id, "house", 0));
+      else grid.push(Box(id, "empty", 0));
     }
   }
 
@@ -49,14 +51,27 @@ contract ToTScavenger {
   }
 
   function moveBucket() public {
-    uint256 randomNumber = uint256(keccak256(abi.encode(block.timestamp, msg.sender))) % 3;
-    bucketPosititon[msg.sender] += randomNumber + 1;
+    address tbaAddress = tbaList[msg.sender];
+    uint256 randomNumber = uint256(keccak256(abi.encode(block.timestamp, msg.sender, tbaAddress))) % 3;
+    bucketPosititon[tbaAddress] += randomNumber + 1;
 
-    if (bucketPosititon[msg.sender] >= 14) {
-      bucketPosititon[msg.sender] = 0;
+    if (bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7) {
+      isClaim[tbaAddress] = true;
+    }
+    if (bucketPosititon[tbaAddress] >= 14) {
+      bucketPosititon[tbaAddress] = 0;
     }
 
-    emit RollResult(msg.sender, randomNumber);
+    emit RollResult(tbaAddress, randomNumber);
+  }
+
+  function claimCandy() public {
+    address tbaAddress = tbaList[msg.sender];
+    require(bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7, "You cannot claim candy");
+    require(isClaim[tbaAddress], "You already claim candy");
+
+    candy.mint(tbaAddress, 10 * 10 ** 18);
+    isClaim[tbaAddress] = false;
   }
 
   // Modifier: used to define a set of rules that must be met before or after a function is executed
