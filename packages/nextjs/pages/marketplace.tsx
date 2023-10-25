@@ -9,7 +9,7 @@ const CHAIN_ID = 31337;
 const Marketplace: NextPage = () => {
   const { address } = useAccount();
 
-  const [selectedNFT, setSelectNFT] = useState(-1);
+  const [selectedNFT, setSelectNFT] = useState("-1");
 
   const { data: nfts } = useScaffoldContractRead({
     contractName: "BucketNFT",
@@ -55,8 +55,8 @@ const Marketplace: NextPage = () => {
             <div
               key={index}
               className="w-16 h-20 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
-              style={{ background: selectedNFT === index ? "#00cc99" : "white" }}
-              onClick={() => setSelectNFT(index)}
+              style={{ background: selectedNFT === n.toString() ? "#00cc99" : "white" }}
+              onClick={() => setSelectNFT(n.toString())}
             >
               {n.toString()}
             </div>

@@ -30,6 +30,12 @@ const ExampleUI: NextPage = () => {
     args: [tbaAddress],
   });
 
+  const { data: isStop } = useScaffoldContractRead({
+    contractName: "ToTScavenger",
+    functionName: "isStop",
+    args: [tbaAddress],
+  });
+
   const { writeAsync: roll } = useScaffoldContractWrite({
     contractName: "ToTScavenger",
     functionName: "moveBucket",
@@ -41,6 +47,22 @@ const ExampleUI: NextPage = () => {
   const { writeAsync: claimCandy, isLoading: claimLoading } = useScaffoldContractWrite({
     contractName: "ToTScavenger",
     functionName: "claimCandy",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const { writeAsync: hireTheft, isLoading: hireLoading } = useScaffoldContractWrite({
+    contractName: "ToTScavenger",
+    functionName: "hireTheft",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const { writeAsync: payTheft, isLoading: payLoading } = useScaffoldContractWrite({
+    contractName: "ToTScavenger",
+    functionName: "payTheft",
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
@@ -74,9 +96,25 @@ const ExampleUI: NextPage = () => {
                 onClick={() => claimCandy()}
                 disabled={claimLoading}
               >
-                {claimLoading ? "Claim" : "Claimming..."}
+                {!claimLoading ? "Claim" : "Claimming..."}
               </button>
             )}
+            {isStop && (
+              <button
+                className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+                onClick={() => payTheft()}
+                disabled={payLoading}
+              >
+                {!payLoading ? "Pay" : "Paying..."}
+              </button>
+            )}
+            <button
+              className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+              onClick={() => hireTheft()}
+              disabled={hireLoading}
+            >
+              {!hireLoading ? "Hire" : "Hiring..."}
+            </button>
             <div className="relative mt-10" style={{ width: "450px", height: "600px" }}>
               {gridData &&
                 gridData.map((item, index) => (
@@ -87,7 +125,8 @@ const ExampleUI: NextPage = () => {
                     }
                   >
                     {item.id.toString()}
-                    {item.typeGrid === "house" && <p className="building">House</p>}
+                    {item.typeGrid.toString() === "1" && <p className="building">House</p>}
+                    {item.typeGrid.toString() === "9" && <p className="building">Thief</p>}
                     {you?.toString() === item.id.toString() && <p className="my-0">You</p>}
                   </div>
                 ))}

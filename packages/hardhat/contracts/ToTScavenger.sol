@@ -14,11 +14,13 @@ contract ToTScavenger {
   mapping(address => address) public tbaList;
   mapping(address => uint256) public bucketPosititon;
   mapping(address => bool) public isClaim;
+  mapping(address => bool) public isStop;
 
   struct Box {
     uint256 id;
-    string typeGrid;
+    uint256 typeGrid;
     uint256 numberOfPlayers;
+    address owner;
   }
 
   event RollResult(address player, uint256 num);
@@ -29,8 +31,8 @@ contract ToTScavenger {
     candy = CandyToken(_candyAddress);
 
     for (uint256 id = 0; id < 14; id++) {
-      if (id == 5 || id == 6|| id == 7) grid.push(Box(id, "house", 0));
-      else grid.push(Box(id, "empty", 0));
+      if (id == 5 || id == 6|| id == 7) grid.push(Box(id, 1, 0, address(0)));
+      else grid.push(Box(id, 0, 0, address(0)));
     }
   }
 
@@ -58,8 +60,11 @@ contract ToTScavenger {
     if (bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7) {
       isClaim[tbaAddress] = true;
     }
-    if (bucketPosititon[tbaAddress] >= 14) {
+    else if (bucketPosititon[tbaAddress] >= 14) {
       bucketPosititon[tbaAddress] = 0;
+    }
+    else if (grid[bucketPosititon[tbaAddress]].typeGrid == 9 && grid[bucketPosititon[tbaAddress]].owner != tbaAddress) {
+      isStop[tbaAddress] = true;
     }
 
     emit RollResult(tbaAddress, randomNumber);
@@ -72,6 +77,24 @@ contract ToTScavenger {
 
     candy.mint(tbaAddress, 10 * 10 ** 18);
     isClaim[tbaAddress] = false;
+  }
+
+  function hireTheft() public {
+    address tbaAddress = tbaList[msg.sender];
+    Box storage currentSpot = grid[bucketPosititon[tbaAddress]];
+
+    require(currentSpot.typeGrid == 0, "You cannot hire in this spot");
+
+    currentSpot.typeGrid = 9;
+  }
+
+  function payTheft() public {
+    address tbaAddress = tbaList[msg.sender];
+    Box storage currentSpot = grid[bucketPosititon[tbaAddress]];
+
+    currentSpot.typeGrid = 0;
+    currentSpot.owner = address(0);
+    isStop[tbaAddress] = false;
   }
 
   // Modifier: used to define a set of rules that must be met before or after a function is executed
