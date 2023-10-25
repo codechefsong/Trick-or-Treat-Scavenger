@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BOARD_STYLES } from "../components/board/names";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
@@ -115,7 +116,7 @@ const ExampleUI: NextPage = () => {
             >
               {!hireLoading ? "Hire" : "Hiring..."}
             </button>
-            <div className="relative mt-10" style={{ width: "450px", height: "600px" }}>
+            <div className="relative mt-32" style={{ width: "450px", height: "600px" }}>
               {gridData &&
                 gridData.map((item, index) => (
                   <div
@@ -125,9 +126,21 @@ const ExampleUI: NextPage = () => {
                     }
                   >
                     {item.id.toString()}
-                    {item.typeGrid.toString() === "1" && <p className="building">House</p>}
-                    {item.typeGrid.toString() === "9" && <p className="building">Thief</p>}
-                    {you?.toString() === item.id.toString() && <p className="my-0">You</p>}
+                    {item.typeGrid.toString() === "1" && (
+                      <Image className="house" src="/assets/house.png" width={70} height={70} alt="House" />
+                    )}
+                    {item.typeGrid.toString() === "9" && (
+                      <Image className="thief" src="/assets/thief.png" width={50} height={50} alt="Thief" />
+                    )}
+                    {you?.toString() === item.id.toString() && (
+                      <Image
+                        className="mb-3"
+                        src="/assets/pumpkinbasket.png"
+                        width={50}
+                        height={50}
+                        alt="Pumpkin Basket"
+                      />
+                    )}
                   </div>
                 ))}
             </div>
