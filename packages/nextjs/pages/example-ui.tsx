@@ -14,6 +14,12 @@ const ExampleUI: NextPage = () => {
     args: [address],
   });
 
+  const { data: candys } = useScaffoldContractRead({
+    contractName: "CandyToken",
+    functionName: "balanceOf",
+    args: [tbaAddress],
+  });
+
   const { data: you } = useScaffoldContractRead({
     contractName: "ToTScavenger",
     functionName: "bucketPosititon",
@@ -85,6 +91,7 @@ const ExampleUI: NextPage = () => {
             <h2 className="mt-4 text-3xl">Board</h2>
             <p>{address}</p>
             <p className="mt-0">{tbaAddress}</p>
+            <p>{candys?.toString()} Candys</p>
             <button
               className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
               onClick={() => roll()}
@@ -116,7 +123,7 @@ const ExampleUI: NextPage = () => {
             >
               {!hireLoading ? "Hire" : "Hiring..."}
             </button>
-            <div className="relative mt-32" style={{ width: "450px", height: "600px" }}>
+            <div className="relative mt-10" style={{ width: "450px", height: "600px" }}>
               {gridData &&
                 gridData.map((item, index) => (
                   <div

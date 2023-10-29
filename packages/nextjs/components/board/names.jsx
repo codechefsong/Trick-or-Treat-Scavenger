@@ -13,4 +13,5 @@ export const BOARD_STYLES = [
   "grid-12",
   "grid-13",
   "grid-14",
+  "grid-15",
 ];
