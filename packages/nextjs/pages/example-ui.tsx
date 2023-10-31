@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { BOARD_STYLES } from "../components/board/names";
 import type { NextPage } from "next";
+import { formatEther } from "viem";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
@@ -91,7 +92,7 @@ const ExampleUI: NextPage = () => {
             <h2 className="mt-4 text-3xl">Board</h2>
             <p>{address}</p>
             <p className="mt-0">{tbaAddress}</p>
-            <p>{candys?.toString()} Candys</p>
+            <p>{formatEther(candys || 0n)} Candys</p>
             <button
               className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
               onClick={() => roll()}
