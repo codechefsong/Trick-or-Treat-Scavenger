@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
+import { Address } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const ExampleUI: NextPage = () => {
@@ -78,53 +79,52 @@ const ExampleUI: NextPage = () => {
 
   return (
     <>
-      <MetaHeader
-        title="Example UI | Scaffold-ETH 2"
-        description="Example UI created with 🏗 Scaffold-ETH 2, showcasing some of its features."
-      >
+      <MetaHeader title="Game" description="Game created with 🏗 Scaffold-ETH 2, showcasing some of its features.">
         {/* We are importing the font this way to lighten the size of SE2. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
       </MetaHeader>
-      <div className="ml-6" data-theme="exampleUi">
-        <div className="flex">
-          <div>
-            <h2 className="mt-4 text-3xl">Board</h2>
-            <p>{address}</p>
-            <p className="mt-0">{tbaAddress}</p>
-            <p>{formatEther(candys || 0n)} Candys</p>
-            <button
-              className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-              onClick={() => roll()}
-            >
-              Roll
-            </button>
-            {isClaim && (
+      <div data-theme="exampleUi">
+        <div className="">
+          <div className="ml-6">
+            <div className="flex flex-col items-center ">
+              <h2 className="mt-4 text-3xl">Board</h2>
+              <p>TBA Address</p>
+              <Address address={tbaAddress} />
+              <p>{formatEther(candys || 0n)} Candys</p>
               <button
-                className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-                onClick={() => claimCandy()}
-                disabled={claimLoading}
+                className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                onClick={() => roll()}
               >
-                {!claimLoading ? "Claim" : "Claimming..."}
+                Roll
               </button>
-            )}
-            {isStop && (
+              {isClaim && (
+                <button
+                  className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                  onClick={() => claimCandy()}
+                  disabled={claimLoading}
+                >
+                  {!claimLoading ? "Claim" : "Claimming..."}
+                </button>
+              )}
+              {isStop && (
+                <button
+                  className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                  onClick={() => payTheft()}
+                  disabled={payLoading}
+                >
+                  {!payLoading ? "Pay" : "Paying..."}
+                </button>
+              )}
               <button
-                className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-                onClick={() => payTheft()}
-                disabled={payLoading}
+                className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                onClick={() => hireTheft()}
+                disabled={hireLoading}
               >
-                {!payLoading ? "Pay" : "Paying..."}
+                {!hireLoading ? "Hire" : "Hiring..."}
               </button>
-            )}
-            <button
-              className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-              onClick={() => hireTheft()}
-              disabled={hireLoading}
-            >
-              {!hireLoading ? "Hire" : "Hiring..."}
-            </button>
-            <div className="relative mt-10" style={{ width: "450px", height: "600px" }}>
+            </div>
+            <div className="relative ml-5" style={{ width: "450px", height: "600px", marginTop: "-100px" }}>
               {gridData &&
                 gridData.map((item, index) => (
                   <div

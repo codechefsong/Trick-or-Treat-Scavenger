@@ -2,6 +2,8 @@ import { useState } from "react";
 import Image from "next/image";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { MetaHeader } from "~~/components/MetaHeader";
+import { Address } from "~~/components/scaffold-eth";
 import deployedContracts from "~~/generated/deployedContracts";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
@@ -51,48 +53,59 @@ const Marketplace: NextPage = () => {
   });
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-7">
-      <div className="px-5">
-        <h1 className="text-center mb-5">
-          <span className="block text-3xl mb-2">Select your Pumpkin Buckets</span>
-        </h1>
+    <>
+      <MetaHeader
+        title="Marketplace"
+        description="Marketplace created with 🏗 Scaffold-ETH 2, showcasing some of its features."
+      >
+        {/* We are importing the font this way to lighten the size of SE2. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
+      </MetaHeader>
 
-        <p className="mt-0">{tbaAddress}</p>
+      <div className="flex items-center flex-col flex-grow pt-7">
+        <div className="px-5">
+          <h1 className="text-center mb-5">
+            <span className="block text-3xl mb-2">Select your Pumpkin Buckets</span>
+          </h1>
 
-        <div className="flex">
-          {nfts?.map((n, index) => (
-            <div
-              key={index}
-              className="w-16 h-20 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
-              style={{ background: selectedNFT === n.toString() ? "#00cc99" : "white" }}
-              onClick={() => setSelectNFT(n.toString())}
-            >
-              <Image className="" src="/assets/pumpkinbasket.png" width={50} height={50} alt="Pumpkin Basket" />
-            </div>
-          ))}
-        </div>
+          <Address address={tbaAddress} />
 
-        <button
-          className="py-2 px-16 mb-10 mt-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-          onClick={() => createAccount()}
-        >
-          Create Token Bound Account
-        </button>
-        <h1 className="text-center mb-10">
-          <span className="block text-2xl mb-2">Buy a Pumpkin Bucket</span>
-        </h1>
+          <div className="flex mt-3">
+            {nfts?.map((n, index) => (
+              <div
+                key={index}
+                className="w-16 h-20 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
+                style={{ background: selectedNFT === n.toString() ? "#00cc99" : "white" }}
+                onClick={() => setSelectNFT(n.toString())}
+              >
+                <Image className="" src="/assets/pumpkinbasket.png" width={50} height={50} alt="Pumpkin Basket" />
+              </div>
+            ))}
+          </div>
 
-        <div className="flex flex-col items-center">
-          <Image className="mb-3" src="/assets/pumpkinbasket.png" width={100} height={100} alt="Pumpkin Basket" />
           <button
-            className="py-2 px-16 mb-1 mt-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-            onClick={() => mintNFT()}
+            className="py-2 px-16 mb-10 mt-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+            onClick={() => createAccount()}
           >
-            Buy
+            Create Token Bound Account
           </button>
+          <h1 className="text-center mb-10">
+            <span className="block text-2xl mb-2">Buy a Pumpkin Bucket</span>
+          </h1>
+
+          <div className="flex flex-col items-center">
+            <Image className="mb-3" src="/assets/pumpkinbasket.png" width={100} height={100} alt="Pumpkin Basket" />
+            <button
+              className="py-2 px-16 mb-1 mt-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+              onClick={() => mintNFT()}
+            >
+              Buy
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
