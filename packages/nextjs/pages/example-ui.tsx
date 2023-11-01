@@ -78,6 +78,14 @@ const ExampleUI: NextPage = () => {
     },
   });
 
+  const { writeAsync: goToStart, isLoading: startLoading } = useScaffoldContractWrite({
+    contractName: "ToTScavenger",
+    functionName: "goToStart",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   useScaffoldEventSubscriber({
     contractName: "ToTScavenger",
     eventName: "RollResult",
@@ -102,12 +110,23 @@ const ExampleUI: NextPage = () => {
               <p>TBA Address</p>
               <Address address={tbaAddress} />
               <p>{formatEther(candys || 0n)} Candys</p>
-              <button
-                className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
-                onClick={() => roll()}
-              >
-                Roll
-              </button>
+              {you?.toString() !== "14" && (
+                <button
+                  className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                  onClick={() => roll()}
+                >
+                  Roll
+                </button>
+              )}
+              {you?.toString() === "14" && (
+                <button
+                  className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
+                  onClick={() => goToStart()}
+                  disabled={startLoading}
+                >
+                  {!startLoading ? "Go to Start" : "Moving..."}
+                </button>
+              )}
               {isClaim && (
                 <button
                   className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"

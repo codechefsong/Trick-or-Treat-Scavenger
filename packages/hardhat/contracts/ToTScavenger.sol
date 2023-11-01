@@ -60,8 +60,8 @@ contract ToTScavenger {
     if (bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7 || bucketPosititon[tbaAddress] == 9 || bucketPosititon[tbaAddress] == 10) {
       isClaim[tbaAddress] = true;
     }
-    else if (bucketPosititon[tbaAddress] >= 14) {
-      bucketPosititon[tbaAddress] = 0;
+    else if (bucketPosititon[tbaAddress] > 14) {
+      bucketPosititon[tbaAddress] = 14;
     }
     else if (grid[bucketPosititon[tbaAddress]].typeGrid == 9 && grid[bucketPosititon[tbaAddress]].owner != tbaAddress) {
       isStop[tbaAddress] = true;
@@ -95,6 +95,12 @@ contract ToTScavenger {
     currentSpot.typeGrid = 0;
     currentSpot.owner = address(0);
     isStop[tbaAddress] = false;
+  }
+
+  function goToStart() public {
+    address tbaAddress = tbaList[msg.sender];
+    require(bucketPosititon[tbaAddress] == 14, "You are not in the finish spot");
+    bucketPosititon[tbaAddress] = 0;
   }
 
   // Modifier: used to define a set of rules that must be met before or after a function is executed
