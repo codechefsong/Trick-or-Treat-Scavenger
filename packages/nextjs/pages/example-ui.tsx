@@ -5,7 +5,8 @@ import { formatEther } from "viem";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Address } from "~~/components/scaffold-eth";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead, useScaffoldContractWrite, useScaffoldEventSubscriber } from "~~/hooks/scaffold-eth";
+import { notification } from "~~/utils/scaffold-eth";
 
 const ExampleUI: NextPage = () => {
   const { address } = useAccount();
@@ -77,6 +78,15 @@ const ExampleUI: NextPage = () => {
     },
   });
 
+  useScaffoldEventSubscriber({
+    contractName: "ToTScavenger",
+    eventName: "RollResult",
+    listener: (data: any) => {
+      console.log(data[0].args);
+      notification.success(`You roll ${data[0].args.num.toString()}`);
+    },
+  });
+
   return (
     <>
       <MetaHeader title="Game" description="Game created with 🏗 Scaffold-ETH 2, showcasing some of its features.">
@@ -85,9 +95,9 @@ const ExampleUI: NextPage = () => {
         <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
       </MetaHeader>
       <div data-theme="exampleUi">
-        <div className="">
+        <div className="bg-zinc-800">
           <div className="ml-6">
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-center text-white">
               <h2 className="mt-4 text-3xl">Board</h2>
               <p>TBA Address</p>
               <Address address={tbaAddress} />
