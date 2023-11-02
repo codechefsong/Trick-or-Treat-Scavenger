@@ -133,4 +133,22 @@ p {
   top: 45%;
   left: 75%;
   transform: translate(-50%, -30%);
-} 
+}
+
+.portal1 {
+  position: absolute;
+  top: 10px;
+  left: 370px;
+}
+
+.portal2 {
+  position: absolute;
+  top: 10px;
+  left: 910px;
+}
+
+.wizard {
+  position: absolute;
+  top: -80px;
+  left: 1000px;
+}

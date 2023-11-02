@@ -180,6 +180,9 @@ const ExampleUI: NextPage = () => {
                     )}
                   </div>
                 ))}
+              <Image className="portal1" src="/assets/portal.png" width={60} height={60} alt="Portal" />
+              <Image className="portal2" src="/assets/portal.png" width={60} height={60} alt="Portal" />
+              <Image className="wizard" src="/assets/wizard.png" width={60} height={60} alt="Wizard" />
             </div>
           </div>
         </div>
