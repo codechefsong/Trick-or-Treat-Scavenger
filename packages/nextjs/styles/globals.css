@@ -152,3 +152,10 @@ p {
   top: -80px;
   left: 1000px;
 }
+
+.claimButton {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+}

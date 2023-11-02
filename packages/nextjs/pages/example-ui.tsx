@@ -127,15 +127,6 @@ const ExampleUI: NextPage = () => {
                   {!startLoading ? "Go to Start" : "Moving..."}
                 </button>
               )}
-              {isClaim && (
-                <button
-                  className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
-                  onClick={() => claimCandy()}
-                  disabled={claimLoading}
-                >
-                  {!claimLoading ? "Claim" : "Claimming..."}
-                </button>
-              )}
               {isStop && (
                 <button
                   className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
@@ -165,6 +156,15 @@ const ExampleUI: NextPage = () => {
                     {item.id.toString()}
                     {item.typeGrid.toString() === "1" && (
                       <Image className="house" src="/assets/house.png" width={70} height={70} alt="House" />
+                    )}
+                    {isClaim && item.typeGrid.toString() === "1" && you?.toString() === item.id.toString() && (
+                      <button
+                        className="py-2 px-4 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50 claimButton"
+                        onClick={() => claimCandy()}
+                        disabled={claimLoading}
+                      >
+                        {!claimLoading ? "Claim" : "Claimming..."}
+                      </button>
                     )}
                     {item.typeGrid.toString() === "9" && (
                       <Image className="thief" src="/assets/thief.png" width={50} height={50} alt="Thief" />
