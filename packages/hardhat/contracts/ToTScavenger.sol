@@ -31,7 +31,7 @@ contract ToTScavenger {
     candy = CandyToken(_candyAddress);
 
     for (uint256 id = 0; id < 15; id++) {
-      if (id == 5 || id == 6 || id == 7 || id == 9 || id == 10) grid.push(Box(id, 1, 0, address(0)));
+      if (id == 5 || id == 6 || id == 7 || id == 8 || id == 9) grid.push(Box(id, 1, 0, address(0)));
       else grid.push(Box(id, 0, 0, address(0)));
     }
   }
@@ -57,7 +57,7 @@ contract ToTScavenger {
     uint256 randomNumber = uint256(keccak256(abi.encode(block.timestamp, msg.sender, tbaAddress))) % 3;
     bucketPosititon[tbaAddress] += randomNumber + 1;
 
-    if (bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7 || bucketPosititon[tbaAddress] == 9 || bucketPosititon[tbaAddress] == 10) {
+    if (bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7 || bucketPosititon[tbaAddress] == 8 || bucketPosititon[tbaAddress] == 9) {
       isClaim[tbaAddress] = true;
     }
     else if (bucketPosititon[tbaAddress] > 14) {
@@ -72,7 +72,7 @@ contract ToTScavenger {
 
   function claimCandy() public {
     address tbaAddress = tbaList[msg.sender];
-    require(bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7 || bucketPosititon[tbaAddress] == 9 || bucketPosititon[tbaAddress] == 10, "You cannot claim candy");
+    require(bucketPosititon[tbaAddress] == 5 || bucketPosititon[tbaAddress] == 6 || bucketPosititon[tbaAddress] == 7 || bucketPosititon[tbaAddress] == 8 || bucketPosititon[tbaAddress] == 9, "You cannot claim candy");
     require(isClaim[tbaAddress], "You already claim candy");
 
     candy.mint(tbaAddress, 10 * 10 ** 18);

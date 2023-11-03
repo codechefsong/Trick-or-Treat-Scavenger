@@ -91,7 +91,7 @@ const ExampleUI: NextPage = () => {
     eventName: "RollResult",
     listener: (data: any) => {
       console.log(data[0].args);
-      notification.success(`You roll ${data[0].args.num.toString()}`);
+      notification.success(`You roll ${+data[0].args.num.toString() + 1}`);
     },
   });
 
@@ -106,11 +106,10 @@ const ExampleUI: NextPage = () => {
         <div className="bg-zinc-800">
           <div className="ml-6">
             <div className="flex flex-col items-center text-white">
-              <h2 className="mt-4 text-3xl">Board</h2>
-              <p>TBA Address</p>
+              <p className="mt-14 text-3xl">TBA Address</p>
               <Address address={tbaAddress} />
               <p>{formatEther(candys || 0n)} Candys</p>
-              {you?.toString() !== "14" && (
+              {you?.toString() !== "14" && !isStop && (
                 <button
                   className="py-2 px-16 mb-1 mt-3 mr-3 bg-orange-400 rounded baseline hover:bg-orange-300 disabled:opacity-50"
                   onClick={() => roll()}
@@ -183,6 +182,7 @@ const ExampleUI: NextPage = () => {
               <Image className="portal1" src="/assets/portal.png" width={60} height={60} alt="Portal" />
               <Image className="portal2" src="/assets/portal.png" width={60} height={60} alt="Portal" />
               <Image className="wizard" src="/assets/wizard.png" width={60} height={60} alt="Wizard" />
+              <Image className="moon" src="/assets/moon.png" width={100} height={100} alt="Moon" />
             </div>
           </div>
         </div>

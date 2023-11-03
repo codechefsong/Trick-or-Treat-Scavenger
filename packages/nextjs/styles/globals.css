@@ -159,3 +159,9 @@ p {
   left: 50%;
   transform: translate(-50%, -30%);
 }
+
+.moon {
+  position: absolute;
+  top: -180px;
+  left: 1200px;
+}
