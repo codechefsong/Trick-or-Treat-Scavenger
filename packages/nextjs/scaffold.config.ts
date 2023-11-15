@@ -11,7 +11,33 @@ export type ScaffoldConfig = {
 
 const scaffoldConfig = {
   // The network where your DApp lives in
-  targetNetwork: chains.hardhat,
+  targetNetwork: {
+    id: 17001,
+    name: "REDSTONE HOLESKY",
+    network: "REDSTONE HOLESKY",
+    nativeCurrency: {
+        name: "Ether",
+        symbol: "ETH",
+        decimals: 18,
+    },
+    rpcUrls: {
+        default: {
+            http: ["https://rpc.holesky.redstone.xyz"],
+            webSocket: ["wss://rpc.holesky.redstone.xyz/ws"],
+        },
+        public: {
+            http: ["https://rpc.holesky.redstone.xyz"],
+            webSocket: ["wss://rpc.holesky.redstone.xyz/ws"],
+        },
+    },
+    blockExplorers: {
+        default: {
+            name: "Explorer",
+            url: "https://explorer.holesky.redstone.xyz",
+        },
+    },
+    testnet: true,
+  },
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect on the local network

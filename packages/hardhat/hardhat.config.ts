@@ -26,7 +26,7 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "redstoneHolesky",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -116,6 +116,10 @@ const config: HardhatUserConfig = {
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
+      accounts: [deployerPrivateKey],
+    },
+    redstoneHolesky: {
+      url: `https://rpc.holesky.redstone.xyz`,
       accounts: [deployerPrivateKey],
     },
   },
